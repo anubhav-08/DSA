@@ -26,27 +26,6 @@ using namespace std;
 #define trace5(a, b, c, d, e)    cerr<<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<< ": "<<e<<endl
 #define trace6(a, b, c, d, e, f) cerr<<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<< ": "<<e<<" | "<<#f<<": "<<f<<endl
 
-std::vector<bool> isPrime(1e6+1, true);
-void storePrime()
-{
-    int n = 1e6;
-    isPrime[0] = isPrime[1] = false;
-    for(int i = 2; i*i<=n; i++)
-    {
-        if(isPrime[i])
-        {
-            for(int j = i*i; j <= n; j += i)
-            {
-                isPrime[j] = false;
-            }
-        }
-    }
-}
-
-int gcd(int a, int b)
-{
-    return (b == 0 ? a : gcd(b,a%b));
-}
 
 
 int main()
@@ -56,6 +35,11 @@ int main()
     freopen("output.txt", "w", stdout);
     #endif
     IOS;
-    cout<<gcd(12, 480)<<endl;
+    int a, b, c;
+    cin>>a>>b>>c;
+    if(a == b || b == c || a == c)
+        cout<<"YES"<<endl;
+    else
+        cout<<"NO"<<endl;
     return 0;
 }
