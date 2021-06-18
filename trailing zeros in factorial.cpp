@@ -33,7 +33,7 @@ int trailingzeros(int n)
     {
         ans += n/i;
     }
-    return ans;
+    return ans*5;
 }
 
 int main()
