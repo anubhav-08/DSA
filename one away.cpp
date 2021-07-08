@@ -35,31 +35,57 @@ int main()
     freopen("output.txt", "w", stdout);
     #endif
     IOS;
-    string s;
-    getline(cin, s);
-    int n = s.length();
-    std::vector<int> v(26, 0);
-    fo(i,0,n)
+    string a, b;
+    cin>>a>>b;
+
+    if(a.length() == b.length())
     {
-        if(s[i] < 97 && s[i] != ' ')
-            s[i] += 32;
-        if(s[i] != ' ')
+        // check replacement
+        bool found = false;
+        int i = 0;
+        while(i < a.length())
         {
-            v[s[i] - 'a']++;    
+            if(a[i] != b[i])
+            {
+                if(found)
+                {
+                    cout<<"False"<<endl;
+                    return 0;
+                }
+                found = true;
+            }
         }
-    }
-    int count = 0;
-    fo(i,0,26)
-    {
-        v[i] = v[i]%2;
-        if(v[i] == 1)
-        {
-            count++;
-        }
-    }
-    if(count > 1)
-        cout<<"False"<<endl;
-    else
         cout<<"True"<<endl;
+        return 0;
+    }
+    string s1 = a.length() > b.length() ? a : b;
+    string s2 = a.length() > b.length() ? b : a;
+    a = s1;
+    b = s2;
+    cout<<a<<" "<<b<<endl;
+    if(a.length() == b.length() + 1)
+    {
+        int i = 0, j = 0;
+        while(i<b.length())
+        {
+            if(a[i] != b[j])
+            {
+                if(i != j)
+                {
+                    cout<<"False"<<endl;
+                    return 0;
+                }
+                i++;
+            }
+            else
+            {
+                i++;
+                j++;
+            }
+        }
+        cout<<"True"<<endl;
+        return 0;
+    }
+    cout<<"False"<<endl;
     return 0;
 } 
