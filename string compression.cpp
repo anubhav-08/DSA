@@ -26,6 +26,16 @@ using namespace std;
 #define trace5(a, b, c, d, e)    cerr<<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<< ": "<<e<<endl
 #define trace6(a, b, c, d, e, f) cerr<<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<< ": "<<e<<" | "<<#f<<": "<<f<<endl
 
+bool isSubstring(string s1, string s2)
+{
+    for(int i=0; i<s2.length(); i++)
+    {
+        string temp = s1.substr(i, s2.length());
+        if(temp == s2)
+            return true;
+    }
+    return false;
+}
 
 
 int main()
@@ -35,27 +45,37 @@ int main()
     freopen("output.txt", "w", stdout);
     #endif
     IOS;
-    string s, ans;
-    cin>>s;
-    int i = 1, count = 1;
-    ans += s[0];
-    while(i < s.length())
+    string s1, s2, a = "", b= "";
+    cin>>s1>>s2;
+    if(s1.length() != s2.length())
     {
-        if(s[i] == s[i-1])
-        {
-            count++;
-        }
-        else
-        {
-            ans += to_string(count);
-            count = 1;
-            ans += s[i];
-        }
-        i++;
+        cout<<false<<endl;
+        return 0;
     }
-    ans += to_string(count);
-    if(s.length() > ans.length())
-        cout<<ans<<endl;
-    else 
-        cout<<s<<endl;
+    // int i=0, j = 0;
+    // while(i<s1.length() && j<s1.length())
+    // {
+    //     a += s1[i];
+    //     if(s1[i] != s2[j])
+    //     {
+    //         b += a;
+    //         a = "";
+    //     }
+    //     else
+    //     {
+    //         j++;
+    //     }
+    //     i++;
+    // }
+    // if(a+b == s2 || b+a == s2)
+    //     cout<<true<<endl;
+    // else
+    //     cout<<false<<endl;
+
+
+    // Better approach
+    string temp = s1+s1;
+    // find weather s2 is substring of s2;
+    cout<<isSubstring(temp, s2);
+    return 0;
 } 
