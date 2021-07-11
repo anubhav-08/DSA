@@ -118,9 +118,9 @@ int main()
         l2.append(temp);
     }
     // l1.head = reverseLL(l1.head);
-    l1.displayLL();
+    // l1.displayLL();
     LinkedList ans = solution(l1.head, l2.head);
-    l2.displayLL();
+    // l2.displayLL();  
     ans.displayLL();
 
     return 0;
