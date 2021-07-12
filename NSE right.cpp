@@ -39,7 +39,7 @@ int main()
 
     int n;
     cin>>n;
-    std::vector<int> v(n), ans(n);
+    std::vector<int> v(n), ans(n, -1);
     stack<int> s;
     fo(i,0,n)cin>>v[i];
 
@@ -47,16 +47,13 @@ int main()
     {
         while(!s.empty())
         {
-            if(s.top() > v[i])
+            if(s.top() < v[i])
             {
                 ans[i] = s.top();
                 break;
             }
             s.pop();
         }
-        if(s.empty())
-            ans[i] = -1;
-
         s.push(v[i]);
     }
 
