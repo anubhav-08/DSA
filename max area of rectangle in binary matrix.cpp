@@ -26,20 +26,9 @@ using namespace std;
 #define trace5(a, b, c, d, e)    cerr<<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<< ": "<<e<<endl
 #define trace6(a, b, c, d, e, f) cerr<<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<< ": "<<e<<" | "<<#f<<": "<<f<<endl
 
-
-
-//  using recursion
-int main()
+int mah(vector<int> v, int n)
 {
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-    IOS;
-
-    int n;
-    cin>>n;
-    std::vector<int> v(n), left(n, 0), right(n, n);
+    vector<int> left(n, -1), right(n, n);
     stack<int> s1, s2;
     fo(i,0,n)cin>>v[i];
 
@@ -75,7 +64,43 @@ int main()
     {
         mx = max(mx,(right[i]-left[i]-1)*v[i]);
     }
-    cout<<mx<<endl;
+    return mx;
+}
+
+//  using recursion
+int main()
+{
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
+    IOS;
+
+    int n;
+    cin>>n;
+    std::vector<vector<int>> v(n, vector<int>(n));
+    fo(i,0,n)
+    {
+        fo(j,0,n)cin>>v[i][j];
+    }
+    vector<int> h(n,0);
+    int ans = 0;
+    fo(i,0,n)
+    {
+        fo(j,0,n)
+        {
+            if(v[i][j])
+            {
+                h[j] += 1;
+            }
+            else
+            {
+                h[j] = 0;
+            }
+        }
+        ans = max(ans, mah(h,n));
+    }
+    cout<<ans<<endl;
     return 0;
 } 
 
