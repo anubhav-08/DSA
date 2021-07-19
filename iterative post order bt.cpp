@@ -59,20 +59,34 @@ Node* insertNode(Node *root, int data)
     return root;
 }
 
-pair<int, int> diameter(Node *root)
+void iterPostOrder(Node *root)
 {
-    if(root == NULL)
+    stack<pair<Node*, bool>> st;
+    Node *curr = root;
+    st.push(mp(root, false));
+    bool pop = false;
+    while(!st.empty())
     {
-        pair<int, int> temp = mp(0, -1);
-        return temp;
+        curr = st.top().F;
+        pop = st.top().S;
+        if(!pop)
+        {
+            st.top().S = true;
+            if(curr->right)
+            {
+                st.push(mp(curr->right, false));
+            }
+            if(curr->left)
+            {
+                st.push(mp(curr->left, false));
+            }
+        }
+        else
+        {
+            cout<<curr->data<<endl;
+            st.pop();
+        }
     }
-
-    pair<int, int> tl, tr, ans;
-    tl = diameter(root->left);
-    tr = diameter(root->right);
-    ans.S = max(tl.S, tr.S) + 1; //SETTING HEIGHT 
-    ans.F = max(tl.S + tr.S + 2, max(tl.F, tr.F)); //SETTING DIA
-    return ans;
 }
 
 //  using recursion
@@ -90,10 +104,11 @@ int main()
     root = insertNode(root, 6);
     root = insertNode(root, 1);
     root = insertNode(root, 4);
+    root = insertNode(root, 0);
+    root = insertNode(root, 3);
 
-    pair<int, int> t = diameter(root);
-    cout<<t.F<<endl;
 
+    iterPostOrder(root);
     return 0;
 } 
 
