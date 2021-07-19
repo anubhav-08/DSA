@@ -133,6 +133,44 @@ void spiralQS(Node *root)
     }
 }
 
+void spiralSS(Node *root)
+{
+    if(root == NULL)return;
+
+    stack<Node*> s1, s2;
+    Node *curr = root;
+    s1.push(root);
+
+    while(!s1.empty() || !s2.empty())
+    {
+        while(!s1.empty())
+        {
+            curr = s1.top();
+
+            cout<<curr->data<<endl;
+
+            if(curr->right)s2.push(curr->right);
+            
+            if(curr->left)s2.push(curr->left);
+
+            s1.pop();
+        }
+
+        while(!s2.empty())
+        {
+            curr = s2.top();
+
+            cout<<curr->data<<endl;
+            
+            if(curr->left)s1.push(curr->left);
+            
+            if(curr->right)s1.push(curr->right);
+            
+            s2.pop();
+        }
+    }
+}
+
 //  using recursion
 int main()
 {
@@ -151,7 +189,7 @@ int main()
     root = insertNode(root, 0);
     root = insertNode(root, 3);
 
-    spiralQS(root);
+    spiralSS(root);
     return 0;
 } 
 
