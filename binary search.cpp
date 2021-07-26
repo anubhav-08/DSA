@@ -34,6 +34,21 @@ void printVector(vector<int> v)
     cout<<endl;
 }
 
+int binSerRec(vector<int> v, int l, int r, int key)
+{
+    if(l > r)return -1;
+    
+    int mid = (l+r)/2;
+    
+    if(v[mid] == key)return mid;
+
+    else if(v[mid] < key) return binSerRec(v, mid+1, r, key);
+
+    return binSerRec(v, l, mid-1, key);
+}
+
+
+
 int findIndBS(vector<int> v, int key)
 {
     int i = 0, j = v.size()-1;
@@ -59,7 +74,7 @@ int main()
     vector<int> v(n);
     fo(i,0,n)cin>>v[i];
 
-    cout<<findIndBS(v, 5);
+    cout<<binSerRec(v, 0, n-1, 5);
         
     return 0;
 } 
