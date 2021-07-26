@@ -34,37 +34,19 @@ void printVector(vector<int> v)
     cout<<endl;
 }
 
-void merge(vector<int> &v, int l, int mid, int r)
+int findIndBS(vector<int> v, int key)
 {
-    vector<int> temp = v;
-    int k = l, i = l, j = mid;
-    while(i < mid && j <= r)
+    int i = 0, j = v.size()-1;
+    while(i<=j)
     {
-        if(v[i] <= v[j])
-        {
-            temp[k++] = v[i++];
-        }
-        else
-        {
-            temp[k++] = v[j++];
-        }
+        int mid = (i+j)/2;
+        if(v[mid] == key)return mid;
+        else if(v[mid] < key)i = mid+1;
+        else j = mid-1;
     }
-    while(i<mid)temp[k++] = v[i++];
-
-    while(j<=r)temp[k++] = v[j++];
-    v = temp;
+    return -1;
 }
 
-void mergeSort(vector<int> &v, int l, int r)
-{
-    if(l < r)
-    {
-        int mid = (l+r)/2;
-        mergeSort(v, l, mid);
-        mergeSort(v, mid+1, r);
-        merge(v, l, mid+1, r);
-    }
-}
 int main()
 {
     #ifndef ONLINE_JUDGE
@@ -77,8 +59,8 @@ int main()
     vector<int> v(n);
     fo(i,0,n)cin>>v[i];
 
-    mergeSort(v, 0, n-1);
-    printVector(v);
+    cout<<findIndBS(v, 5);
+        
     return 0;
 } 
 
