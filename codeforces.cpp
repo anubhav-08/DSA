@@ -28,23 +28,7 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
-class Node
-{
-    int data;
-    Node *next;
-public:
-    Node(int data)
-    {
-        this->data = data;
-        this->next = NULL;
-    }
-};
 
-void test(Node *arr[])
-{
-    int m = sizeof(arr);
-    cout<<m<<endl; 
-}
 int main()
 {
     #ifndef ONLINE_JUDGE
@@ -52,20 +36,20 @@ int main()
     freopen("output.txt", "w", stdout);
     #endif
     IOS;
-    int n;
-    cin>>n; 
-    Node *arr[n];
-
-    fo(i,0,n)
+    t()
     {
-        int temp;
-        cin>>temp;
-        Node *t = new Node(temp);
-        arr[i] = t;
+        int n, count = 0;
+        cin>>n;
+        string s, t;
+        cin>>s;
+        t = s;
+        sort(t.begin(), t.end());
+        fo(i,0,n)
+        {
+            if(s[i] != t[i])count++;
+        }
+        cout<<count<<endl;
     }
-    int m = sizeof(arr);
-    cout<<m<<endl;
-    test(arr);
     return 0;
 } 
 
