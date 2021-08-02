@@ -9,7 +9,7 @@ using namespace std;
 #define     MOD             998244353
 #define     ll              long long
 #define     mp              make_pair
-#define     pb              push_bac
+#define     pb              push_back
 #define     F               first
 #define     S               second
 #define     t()             int test;cin>>test;while(test--)

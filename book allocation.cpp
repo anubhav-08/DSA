@@ -6,7 +6,7 @@ using namespace std;
 #define     MOD             998244353
 #define     ll              long long
 #define     mp              make_pair
-#define     pb              push_back
+#define     pb              push_bac
 #define     F               first
 #define     S               second
 #define     t()             int test;cin>>test;while(test--)
@@ -27,6 +27,44 @@ using namespace std;
 
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
+bool isFeasible(vector<int> v, int m, int k)
+{
+    int student = 1, n = v.size(), sum = 0;
+    fo(i,0,n)
+    {
+        sum += v[i];
+        if(sum > m)
+        {
+            student++;
+            sum = v[i];
+        }
+    }
+    return student <= k;
+}
+
+int minMaxPages(vector<int> v, int k)
+{
+    int mn = 0, mx = 0, res, n = v.size();
+    fo(i,0,n)
+    {
+        mn = max(mn, v[i]);
+        mx += v[i];
+    }
+    while(mn <= mx)
+    {
+        int mid = (mn+mx)/2;
+        if(isFeasible(v, mid, k))
+        {
+            res = mid;
+            mx = mid-1;
+        }
+        else
+        {
+            mn = mid+1;
+        }
+    }
+    return res;
+}
 
 
 int main()
@@ -35,44 +73,12 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
-    t()
-    {
-        int n, k;
-        cin>>n>>k;
-        vector<int> v(n);
-        fo(i,0,n)cin>>v[i];
-        unordered_map<int, int> m;
-
-        fo(i,0,n)
-        {
-            m[v[i]]++;
-        }
-        int count = 0;
-        for(auto it=m.begin(); it!=m.end(); it++)
-        {
-            count += min(k, (it->S));
-            it->S = 0;
-        }
-        count /= k;
-        vector<int> count_k(k+1, count), ans(n, 0);
-        fo(i,0,n)
-        {
-            int j = m[v[i]] + 1;
-            while(j <= k)
-            {
-                if(count_k[j])
-                {
-                    ans[i] = j;
-                    m[v[i]] = j;
-                    count_k[j]--;
-                    break;
-                }
-                j++;
-            }
-        }
-        for(auto i : ans)cout<<i<<" ";
-        cout<<endl;
-    }
+    IOS;
+    int n;
+    cin>>n;
+    vector<int> v(n);
+    fo(i,0,n)cin>>v[i];
+    cout<<minMaxPages(v, 4);
     return 0;
 } 
 
