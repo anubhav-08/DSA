@@ -30,7 +30,7 @@ typedef pair<int, pair<int,int>> ppi;
 
 void insertEle(stack<int> &s, int ele)
 {
-    if(s.empty() || s.top() < ele)
+    if(s.empty())
     {
         s.push(ele);
         return;
@@ -41,13 +41,13 @@ void insertEle(stack<int> &s, int ele)
     s.push(val);
 }
 
-void sortStack(stack<int> &s)
+void reverseStack(stack<int> &s)
 {
     if(s.empty())return;
 
     int val = s.top();
     s.pop();
-    sortStack(s);
+    reverseStack(s);
     insertEle(s, val);
 }
 
@@ -70,7 +70,7 @@ int main()
         cin>>t;
         s.push(t);
     }
-    sortStack(s);
+    // reverseStack(s);
     while(!s.empty())
     {
         cout<<s.top()<<" ";

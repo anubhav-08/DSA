@@ -62,20 +62,8 @@ int main()
     #endif
     IOS;
     int n;
-    cin>>n;
-    stack<int> s;
-    while(n--)
-    {
-        int t;
-        cin>>t;
-        s.push(t);
-    }
-    sortStack(s);
-    while(!s.empty())
-    {
-        cout<<s.top()<<" ";
-        s.pop();
-    }
+    n = 100;
+    cout<<n;
     return 0;
 } 
 
