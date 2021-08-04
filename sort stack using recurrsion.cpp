@@ -28,27 +28,27 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
-void insertEle(vector<int> &v, int ele)
+void insertEle(stack<int> &s, int ele)
 {
-    if(v.size() == 0 || v[v.size()-1] <= ele)
+    if(s.empty() || s.top() >= ele)
     {
-        v.pb(ele);
+        s.push(ele);
         return;
     }
-    int val = v[v.size() - 1];
-    v.pop_back();
-    insertEle(v, ele);
-    v.push_back(val);
+    int val  = s.top();
+    s.pop();
+    insertEle(s, ele);
+    s.push(val);
 }
 
-void sortArr(vector<int> &v)
+void sortStack(stack<int> &s)
 {
-    if(v.size() == 1)return;
+    if(s.empty())return;
 
-    int val = v[v.size() - 1];
-    v.pop_back();
-    sortArr(v);
-    insertEle(v, val);
+    int val = s.top();
+    s.pop();
+    sortStack(s);
+    insertEle(s, val);
 }
 
 
@@ -61,7 +61,21 @@ int main()
     freopen("output.txt", "w", stdout);
     #endif
     IOS;
-    cout<<sizeof(student);
+    int n;
+    cin>>n;
+    stack<int> s;
+    while(n--)
+    {
+        int t;
+        cin>>t;
+        s.push(t);
+    }
+    sortStack(s);
+    while(!s.empty())
+    {
+        cout<<s.top()<<" ";
+        s.pop();
+    }
     return 0;
 } 
 
