@@ -28,18 +28,25 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
-void balPara(int no, int nc, string res)
+vector<string> solution(int n0, int n1, int n)
 {
-    if(no == 0 && nc == 0)
+    vector<string> ans;
+    if(n == 0)
     {
-        cout<<res<<endl;
-        return;
+        ans.push_back("");
+        return ans;
     }
-    if(no != 0)balPara(no-1, nc, res+"(");
-    
-    if(no < nc)balPara(no, nc-1, res+")");
-}
+    vector<string> temp;
+    temp = solution(n0, n1+1, n-1);
+    for(string i : temp)ans.push_back("1" + i);
 
+    if(n1 > n0)
+    {
+        temp = solution(n0+1, n1, n-1);
+        for(string i : temp)ans.push_back("0" + i);
+    }
+    return ans;
+}   
 
 
 int main()
@@ -51,7 +58,8 @@ int main()
     IOS;
     int n;
     cin>>n;
-    balPara(n, n, "");
+    vector<string> ans = solution(0, 0, n);
+    for(string i : ans)cout<<i<<endl;
     return 0;
 } 
 
