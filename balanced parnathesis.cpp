@@ -28,18 +28,25 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
-void casePermute(string s, string res)
+void balPara(int no, int nc, string res)
 {
-    if(s.length() == 0)
+    if(no == 0 && nc == 0)
     {
         cout<<res<<endl;
         return;
     }
-    char c = tolower(s[0]);
-    casePermute(s.substr(1, s.length()-1), res+c);
-    if(c == toupper(s[0]))return;
-    c = toupper(s[0]);
-    casePermute(s.substr(1, s.length()-1), res + c);
+    if(no == nc)
+    {
+        balPara(no-1, nc, res+"(");
+        return;
+    }
+    if(no == 0)
+    {
+        balPara(no, nc-1, res+")");
+        return;
+    }
+    balPara(no-1, nc, res+"(");
+    balPara(no, nc-1, res+")");
 }
 
 
@@ -51,9 +58,9 @@ int main()
     freopen("output.txt", "w", stdout);
     #endif
     IOS;
-    string s;
-    cin>>s;
-    casePermute(s, "");
+    int n;
+    cin>>n;
+    balPara(n, n, "");
     return 0;
 } 
 
