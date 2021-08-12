@@ -28,6 +28,38 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
+int dp[102][502];
+
+int knapsack(vector<int> wt, vector<int> val, int w, int n)
+{
+    if(n == 0 || w <= 0)return 0;
+    if(dp[n][w] != -1)return dp[n][w];
+
+    if(wt[n-1] > w)return dp[n][w] = knapsack(wt, val, w, n-1);  
+
+    return dp[n][w] = max(knapsack(wt, val, w-wt[n-1], n-1)+val[n-1], knapsack(wt, val, w, n-1));
+}
+
+int tdKnapsack(vector<int> wt, vector<int> val, int w, int n)
+{
+    int t[n+1][w+1];
+    fo(i,0,n+1)
+    {
+        fo(j,0,w+1)
+        {
+            // initialize the table from recursion base condition
+            if(i==0 || j==0)t[i][j]=0;
+            else if(wt[i-1] > j)t[i][j] = t[i-1][j];
+            else t[i][j] = max(val[i-1] + t[i-1][j-wt[i-1]], t[i-1][j]);
+        }
+    }
+    fo(i,0,n+1)
+    {
+        fo(j, 0, w+1)cout<<t[i][j]<<" ";
+        cout<<endl;
+    }
+    return t[n][w];
+}
 
 int main()
 {
@@ -35,59 +67,16 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
-    t()
+    int n, w;
+    cin>>n>>w;
+    vector<int> wt(n), val(n);
+    fo(i,0,n)cin>>wt[i];
+    fo(i,0,n)cin>>val[i];
+    fo(i,0,102)
     {
-        int n, k;
-        cin>>n>>k;
-        
-        vector<int> v(n);
-        
-        fo(i,0,n)cin>>v[i];
-        
-        if(n == k)
-        {
-            cout<<"YES"<<endl;
-            continue;
-        }
-        int mn = v[0], mx = v[0];
-        fo(i,1,n)
-        {
-            // cout<<i<<" "<<v[i]<<endl;
-            if(v[i] > mx)
-            {
-                k--;
-                while(v[i] > v[i-1])
-                {
-                    i++;
-                    mx = max(v[i], mx);
-                }
-            }
-            if(v[i] < v[i-1])
-            {
-                if(v[i] > mn && v[i] < mx)
-                {
-                    k -= 2;
-                    int temp = v[i+1];
-                    while(temp < mx && temp > v[i])
-                    {
-                        i++;
-                        if(i == n-1)break;
-                        temp = v[i+1];
-                    }
-                }
-                else
-                {
-                    k--;
-                }
-                mn = min(mn, v[i]);
-            }
-            // mx = max(mx, v[i]);
-        }
-        cout<<k<<endl;
-        if(k <= 0)cout<<"NO"<<endl;
-
-        else cout<<"YES"<<endl;
+        fo(j,0,502)dp[i][j] = -1;
     }
+    cout<<tdKnapsack(wt, val, w, n);
     return 0;
 } 
 
