@@ -28,33 +28,51 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
-int dp[102][502];
 
-int knapsack(vector<int> wt, vector<int> val, int w, int n)
+bool recurSolution(vector<int> v, int sum, int n)
 {
-    if(n == 0 || w <= 0)return 0;
-    if(dp[n][w] != -1)return dp[n][w];
+    static vector<vector<int>> tabl(n+1, vector<int>(sum+1, -1));
+    cout<<endl;    
+    if(sum == 0)return true;
+    if(n == 0 || sum < 0)return false;
+    if(tabl[n][sum] != -1)return tabl[n][sum] == 0 ? false : true;
 
-    if(wt[n-1] > w)return dp[n][w] = knapsack(wt, val, w, n-1);  
+    if(v[n-1] <= sum)return tabl[n][sum] = recurSolution(v, sum, n-1) || recurSolution(v, sum-v[n-1], n-1);
+    
+    return tabl[n][sum] = recurSolution(v, sum, n-1);
 
-    return dp[n][w] = max(knapsack(wt, val, w-wt[n-1], n-1)+val[n-1], knapsack(wt, val, w, n-1));
 }
 
-int tdKnapsack(vector<int> wt, vector<int> val, int w, int n)
+bool solution(vector<int> v, int sum, int n)
 {
-    int t[n+1][w+1];
+    vector<vector<bool>> dp(n+1, vector<bool>(sum+1, false));
+    
     fo(i,0,n+1)
     {
-        fo(j,0,w+1)
+        fo(j,0,sum+1)
         {
-            // initialize the table from recursion base condition
-            if(i==0 || j==0)t[i][j]=0;
-            else if(wt[i-1] > j)t[i][j] = t[i-1][j];
-            else t[i][j] = max(val[i-1] + t[i-1][j-wt[i-1]], t[i-1][j]);
+            if(i==0)dp[i][j] = false;
+            
+            if(j==0)dp[i][j] = true;
+
+            else if(v[i-1] <= j)
+            {
+                dp[i][j] = (dp[i-1][j] || dp[i-1][j-v[i-1]]);
+            }
+            else
+            {
+                dp[i][j] = (dp[i-1][j]);
+            }
         }
     }
-    return t[n][w];
+    for(auto i : dp)
+    {
+        for(auto j : i)cout<<j<<" ";
+        cout<<endl;
+    }
+    return dp[n][sum];
 }
+
 
 int main()
 {
@@ -64,14 +82,9 @@ int main()
     #endif
     int n, w;
     cin>>n>>w;
-    vector<int> wt(n), val(n);
-    fo(i,0,n)cin>>wt[i];
-    fo(i,0,n)cin>>val[i];
-    fo(i,0,102)
-    {
-        fo(j,0,502)dp[i][j] = -1;
-    }
-    cout<<tdKnapsack(wt, val, w, n);
+    vector<int> v(n);
+    fo(i,0,n)cin>>v[i];
+    cout<<recurSolution(v, w, n)<<endl;
     return 0;
 } 
 
