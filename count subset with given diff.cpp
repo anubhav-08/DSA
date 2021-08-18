@@ -31,43 +31,33 @@ typedef pair<int, pair<int,int>> ppi;
 
 
 
-int solution(vector<int> v, int n)
+int solution(vector<int> v, int diff, int n)
 {
     int total = 0;
     fo(i,0,n)total += v[i];
-
-    int sum = total/2;
-    vector<vector<bool>> dp(n+1, vector<bool>(sum+1, false));
-
-    fo(i,0,n+1)dp[i][0] = true;
-
-
+    int sum = total - diff;
+    if(sum & 1)return -1;
+    sum /= 2;
+    vector<vector<int>> dp(n+1, vector<int>(sum+1, 0));
+    fo(i,0,n+1)
+    {
+        dp[i][0] = 1;
+    }
     fo(i,1,n+1)
     {
         fo(j,1,sum+1)
         {
-            if(v[i-1] <= j)
-            {
-                dp[i][j]  = dp[i-1][j] || dp[i-1][j-v[i-1]];
-            }
-            else
+            if(v[i-1] > j)
             {
                 dp[i][j] = dp[i-1][j];
             }
+            else
+            {
+                dp[i][j] = dp[i-1][j] + dp[i-1][j-v[i-1]];
+            }
         }
     }
-    int ans = 0;
-    for(int i=sum; i>=0; i--)
-    {
-        if(dp[n][i])
-        {
-            ans = i;
-            break;
-        }
-    }
-   
-    ans <<= 1;
-    return total-ans;
+    return dp[n][sum];
 }
 
  
@@ -77,11 +67,11 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
-    int n;
-    cin>>n;
+    int n, w;
+    cin>>n>>w;
     vector<int> v(n);
     fo(i,0,n)cin>>v[i];
-    cout<<solution(v, n)<<endl;
+    cout<<solution(v, w, n)<<endl;
     return 0;
 } 
 
