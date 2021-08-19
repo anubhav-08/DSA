@@ -2,9 +2,6 @@
 #include <iostream>
 using namespace std;
 
-//#include <ext/pb_ds/assoc_container.hpp> 
-//#include <ext/pb_ds/standard_policy.hpp>
-//using namespace pb_ds; 
 #define     mod            (int)1e9+7
 #define     MOD             998244353
 #define     ll              long long
@@ -14,7 +11,8 @@ using namespace std;
 #define     S               second
 #define     t()             int test;cin>>test;while(test--)
 #define     ii              pair<int,int>
-#define     que_max         priority_queue <int>
+#define     max_heap        priority_queue
+#define     min_heap(Type)  priority_queue <Type, vector<Type>, greater<Type>>
 #define     IOS             ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #define     endl            "\n"
 #define     fo(i,a,n)       for(int i=a; i<n; i++)
@@ -27,43 +25,47 @@ using namespace std;
 #define trace6(a, b, c, d, e, f) cerr<<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<< ": "<<e<<" | "<<#f<<": "<<f<<endl
 
 
-void insertionsort(vector<int> &v, int n)
+typedef pair<int, int> pi;
+typedef pair<int, pair<int,int>> ppi;
+
+
+
+
+int solution(vector<int> coin, int sum, int n)
 {
-    for(int i = 1; i<n; i++)
+    vector<vector<int>>dp(n+1, vector<int>(sum+1, 0));
+    int a = INT_MAX-1;
+    // initailization
+    fo(i,1,sum+1)
     {
-        int key = v[i];
-        int j = i-1;
-        for(j; j >= 0 ; j--)
-        {
-            if(key < v[j])
-            {
-                v[j+1] = v[j];
-            }
-            else
-            {
-                v[j+1] = key;
-                break;
-            }  
-        }
-        if(j < 0)
-            v[0] = key;
+        dp[0][i] = a;
+        if(i%coin[0] != 0)dp[1][i] = a;
+        else dp[1][i] = i/coin[0];
     }
+
+    fo(i,2,n+1)
+    {
+        fo(j,1,sum+1)
+        {
+            if(coin[i-1] > j)dp[i][j] = dp[i-1][j];
+            else dp[i][j] = min(dp[i-1][j], 1+dp[i][j-coin[i-1]]);
+        }
+    }
+    return dp[n][sum];
 }
 
-
+ 
 int main()
 {
     #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
-    IOS;
-
-    int n;
-    cin>>n;
+    int n, sum;
+    cin>>n>>sum;
     std::vector<int> v(n);
     fo(i,0,n)cin>>v[i];
-    insertionsort(v, n);
-    for(auto i : v)
-        cout<<i<<" ";
+    cout<<solution(v, sum, n);
+    return 0;
 } 
+
