@@ -10,6 +10,7 @@ using namespace std;
 #define     ll              long long
 #define     mp              make_pair
 #define     pb              push_back
+#define     test            abc
 #define     F               first
 #define     S               second
 #define     t()             int test;cin>>test;while(test--)
