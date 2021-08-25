@@ -2,7 +2,6 @@
 #include <iostream>
 using namespace std;
 
-#define     mod            (int)1e9+7
 #define     MOD             998244353
 #define     ll              long long
 #define     mp              make_pair
@@ -28,31 +27,8 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
+int mod = 1000000009;
 
-
-
-int solution(vector<int> coin, int sum, int n)
-{
-    vector<vector<int>>dp(n+1, vector<int>(sum+1, 0));
-    int a = INT_MAX-1;
-    // initailization
-    fo(i,1,sum+1)
-    {
-        dp[0][i] = a;
-        if(i%coin[0] != 0)dp[1][i] = a;
-        else dp[1][i] = i/coin[0];
-    }
-
-    fo(i,2,n+1)
-    {
-        fo(j,1,sum+1)
-        {
-            if(coin[i-1] > j)dp[i][j] = dp[i-1][j];
-            else dp[i][j] = min(dp[i-1][j], 1+dp[i][j-coin[i-1]]);
-        }
-    }
-    return dp[n][sum];
-}
 
  
 int main()
@@ -61,14 +37,32 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
-    int n, sum;
-    cin>>n>>sum;
-    trace2(n,sum);
-    std::vector<int> v(n);
+    t()
+    {
+        int n, q;
+        cin>>n;
+        vector<int> v(n), pre(n);
+        fo(i,0,n)cin>>v[i];
+        pre[0] = v[0];
+        fo(i,1,n)
+        {
+            pre[i] = ((v[i]%mod) + (pre[i-1]%mod))%mod;
+        }
+        t()
+        {
+            ll l, r;
+            cin>>l>>r;
+            l--;
+            r--;
+            ll rsum = ((r/n) * pre[n-1])%mod;
+            rsum = (rsum + pre[r%n])%mod;
+            ll lsum = ((l/n) * pre[n-1])%mod;
+            if((l%n)>0)lsum = (lsum + pre[l%n])%mod;
 
-    fo(i,0,n)cin>>v[i];
-
-    cout<<solution(v, sum, n);
+            cout<<rsum-lsum<<" ";
+        }
+        cout<<endl;
+    }
     return 0;
 } 
 

@@ -62,7 +62,7 @@ int main()
     #endif
     IOS;
     int n;
-    n = 100;
+    cin>>n;
     cout<<n;
     return 0;
 } 
