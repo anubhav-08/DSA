@@ -28,27 +28,45 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
-string printLcs(string x, string y)
+// int lcsMemo(string x, string y, int n, int m, vector<vector<int>> &dp)
+// {
+//     if(n == 0 || m == 0)return 0;
+
+//     if(dp[n][m] != -1)return dp[n][m];
+
+//     if(x[n-1] == y[m-1])
+//     {
+//         return dp[n][m] = lcsMemo(x, y, n-1, m-1, dp) + 1;
+//     }
+
+//     return dp[n][m] = max(lcsMemo(x, y, n-1, m, dp), lcsMemo(x, y, n, m-1, dp));
+// } 
+
+int solution(string x, string y)
 {
     int n = x.length(), m = y.length();
-    vector<vector<string>> dp(n+1, vector<string>(m+1, ""));
-
+    vector<vector<int>>dp(n+1, vector<int>(m+1, 0));
     fo(i,1,n+1)
     {
         fo(j,1,m+1)
         {
-            if(x[i-1] == y[j-1])
-            {
-                dp[i][j] = dp[i-1][j-1] + x[i-1];
-            }
-            else
-            {
-                dp[i][j] = dp[i-1][j].length() > dp[i][j-1].length() ? dp[i-1][j] : dp[i][j-1];
-            }
+            if(x[i-1] != y[j-1])dp[i][j] = 0;
+            else dp[i][j] = 1+dp[i-1][j-1];
         }
     }
-    return dp[n][m];
+    int ans = 0;
+    fo(i,0,n+1)
+    {
+        fo(j,0,m+1)
+        {
+            cout<<dp[i][j]<<" ";
+            ans = max(ans, dp[i][j]);
+        }
+        cout<<endl;
+    }
+    return ans;
 }
+
  
 int main()
 {
@@ -59,7 +77,7 @@ int main()
     IOS;
     string x, y;
     cin>>x>>y;
-    cout<<printLcs(x, y);
+    cout<<solution(x, y);
     return 0;
 } 
 
