@@ -36,13 +36,21 @@ int lcs(string x, string y)
     {
         fo(j,1,m+1)
         {
-            if(x[i-1] == y[j-1] && i != j)dp[i][j] = 1+dp[i-1][j-1];
+            if(x[i-1] == y[j-1])dp[i][j] = 1+dp[i-1][j-1];
+
             else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
         }
     }
     return dp[n][m];
 }
  
+bool solution(string x, string y)
+{
+    if(x.length() == lcs(x,y))return true;
+
+    return false;
+}
+
 int main()
 {
     #ifndef ONLINE_JUDGE
@@ -50,9 +58,10 @@ int main()
     freopen("output.txt", "w", stdout);
     #endif
     IOS;
-    string x;
-    cin>>x;
-    cout<<lcs(x, x);
+
+    string x, y;
+    cin>>x>>y;
+    cout<<solution(x, y);
     return 0;
 } 
 
