@@ -39,17 +39,19 @@ bool ispalindrome(string s, int i, int j)
     return true;
 }
  
- int solution(string s, int i, int j)
+ int solution(string s, int i, int j, vector<vector<int>> &dp)
  {
     if(i >= j || ispalindrome(s, i, j))return 0;
+
+    if(dp[i][j] != -1)return dp[i][j];
 
     int ans = INT_MAX;
     for(int k=i; k<j; k++)
     {
-        int temp = solution(s, i, k) + solution(s, k+1, j) + 1;
+        int temp = solution(s, i, k, dp) + solution(s, k+1, j, dp) + 1;
         ans = min(temp, ans);
     }
-    return ans;
+    return dp[i][j] = ans;
  }
 
 int main()
@@ -62,7 +64,8 @@ int main()
 
     string s;
     cin>>s;
-    cout<<solution(s, 0, s.length()-1);
+    vector<vector<int>> dp(s.length(), vector<int>(s.length(), -1));
+    cout<<solution(s, 0, s.length()-1, dp);
     return 0;
 } 
 
