@@ -48,7 +48,22 @@ bool ispalindrome(string s, int i, int j)
     int ans = INT_MAX;
     for(int k=i; k<j; k++)
     {
-        int temp = solution(s, i, k, dp) + solution(s, k+1, j, dp) + 1;
+        int left, right;
+        if(dp[i][k] != -1)left = dp[i][k];
+        else
+        {
+            left = solution(s, i, k, dp);
+            dp[i][k] = left;
+        }
+
+        if(dp[k+1][j] != -1)right = dp[k+1][j];
+        else
+        {
+            right = solution(s, k+1, j, dp);
+            dp[k+1][j] = right;
+        }
+
+        int temp = left + right + 1;
         ans = min(temp, ans);
     }
     return dp[i][j] = ans;
