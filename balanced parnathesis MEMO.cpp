@@ -28,6 +28,69 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
+unordered_map<string, int> table;
+
+// memoization using map
+int solution(string s, int i, int j, bool isTrue)
+{
+    if(i>j)return 0;
+
+    if(i == j)
+    {
+        if(isTrue)return s[i] == 'T';
+        else return s[i] == 'F';
+    }
+    string temp = to_string(i)+to_string(j)+to_string(isTrue);
+    if(table.find(temp) != table.end())
+    {
+        return table[temp];
+    }
+    int ans = 0;
+    for(int k=i+1; k<j; k+=2)
+    {
+        int lt = solution(s, i, k-1, true);
+        int lf = solution(s, i, k-1, false);
+        int rt = solution(s, k+1, j, true);
+        int rf = solution(s, k+1, j, false);
+        if(s[k] == '&')
+        {
+            if(isTrue)
+            {
+                ans += (lt * rt);
+            }
+            else
+            {
+                ans += (lt * rf) + (lf * rt) + (lf * rf);
+            }
+        }
+
+        if(s[k] == '|')
+        {
+            if(isTrue)
+            {
+                ans += (lt * rf) + (lf * rt) + (lt * rt);
+            }
+            else
+            {
+                ans += (lf * rf);
+            }
+        }
+
+        if(s[k] == '^')
+        {
+            if(isTrue)
+            {
+                ans += (lt * rf) + (lf * rt);
+            }
+            else
+            {
+                ans += (lf * rf) + (lt * rt);
+            }
+        }
+    }
+    return table[temp] = ans;
+}
+
 // USING 3D Matrix
 
 int solution(string s, int i, int j, bool isTrue, vector<vector<vector<int>>> &dp)
@@ -40,8 +103,10 @@ int solution(string s, int i, int j, bool isTrue, vector<vector<vector<int>>> &d
         else return s[i] == 'F';
     }
 
-    if(dp[isTrue][i][j] != -1)return dp[isTrue][i][j];
-
+    if(dp[isTrue][i][j] != -1)
+    {
+        return dp[isTrue][i][j];
+    }
     int ans = 0;
     for(int k=i+1; k<j; k+=2)
     {
@@ -100,7 +165,7 @@ int main()
     cin>>s;
     int n = s.length();
     vector<vector<vector<int>>> dp(2, vector<vector<int>>(n, vector<int> (n, -1)));
-    cout<<solution(s, 0, s.length()-1, true, dp);
+    cout<<solution(s, 0, s.length()-1, true)<<endl;;
     return 0;
 } 
 
