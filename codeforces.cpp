@@ -35,58 +35,30 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     #endif
+    IOS;
+
     t()
     {
-        int n, k;
-        cin>>n>>k;
-        
-        vector<int> v(n);
-        
-        fo(i,0,n)cin>>v[i];
-        
-        if(n == k)
+        int n;
+        cin>>n;
+        string s, ans = "";
+        cin>>s;
+        fo(i,0,n)
         {
-            cout<<"YES"<<endl;
-            continue;
-        }
-        int mn = v[0], mx = v[0];
-        fo(i,1,n)
-        {
-            // cout<<i<<" "<<v[i]<<endl;
-            if(v[i] > mx)
+            if(s[i] == 'U')
             {
-                k--;
-                while(v[i] > v[i-1])
-                {
-                    i++;
-                    mx = max(v[i], mx);
-                }
+                ans += 'D';
             }
-            if(v[i] < v[i-1])
+            else if(s[i] == 'D')
             {
-                if(v[i] > mn && v[i] < mx)
-                {
-                    k -= 2;
-                    int temp = v[i+1];
-                    while(temp < mx && temp > v[i])
-                    {
-                        i++;
-                        if(i == n-1)break;
-                        temp = v[i+1];
-                    }
-                }
-                else
-                {
-                    k--;
-                }
-                mn = min(mn, v[i]);
+                ans += 'U';
             }
-            // mx = max(mx, v[i]);
+            else
+            {
+                ans += s[i];
+            }
         }
-        cout<<k<<endl;
-        if(k <= 0)cout<<"NO"<<endl;
-
-        else cout<<"YES"<<endl;
+        cout<<ans<<endl;
     }
     return 0;
 } 
