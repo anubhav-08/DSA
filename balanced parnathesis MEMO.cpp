@@ -28,7 +28,9 @@ using namespace std;
 typedef pair<int, int> pi;
 typedef pair<int, pair<int,int>> ppi;
 
-int solution(string s, int i, int j, bool isTrue)
+// USING 3D Matrix
+
+int solution(string s, int i, int j, bool isTrue, vector<vector<vector<int>>> &dp)
 {
     if(i>j)return 0;
 
@@ -38,13 +40,15 @@ int solution(string s, int i, int j, bool isTrue)
         else return s[i] == 'F';
     }
 
+    if(dp[isTrue][i][j] != -1)return dp[isTrue][i][j];
+
     int ans = 0;
     for(int k=i+1; k<j; k+=2)
     {
-        int lt = solution(s, i, k-1, true);
-        int lf = solution(s, i, k-1, false);
-        int rt = solution(s, k+1, j, true);
-        int rf = solution(s, k+1, j, false);
+        int lt = solution(s, i, k-1, true, dp);
+        int lf = solution(s, i, k-1, false, dp);
+        int rt = solution(s, k+1, j, true, dp);
+        int rf = solution(s, k+1, j, false, dp);
         if(s[k] == '&')
         {
             if(isTrue)
@@ -81,7 +85,7 @@ int solution(string s, int i, int j, bool isTrue)
             }
         }
     }
-    return ans;
+    return dp[isTrue][i][j] = ans;
 }
 
 int main()
@@ -94,7 +98,9 @@ int main()
 
     string s;
     cin>>s;
-    cout<<solution(s, 0, s.length()-1, true);
+    int n = s.length();
+    vector<vector<vector<int>>> dp(2, vector<vector<int>>(n, vector<int> (n, -1)));
+    cout<<solution(s, 0, s.length()-1, true, dp);
     return 0;
 } 
 
